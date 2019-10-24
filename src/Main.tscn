@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/Main.gd" type="Script" id=1]
+[ext_resource path="res://src/Paddle.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Ball.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="LeftPaddle" parent="." instance=ExtResource( 2 )]
+position = Vector2( 30, 300 )
+collision_layer = 1
+collision_mask = 1
+speed = 3
+move_up_command = "LeftPaddleMoveUp"
+move_down_command = "LeftPaddleMoveDown"
+
+[node name="RightPaddle" parent="." instance=ExtResource( 2 )]
+position = Vector2( 994, 300 )
+collision_layer = 2
+collision_mask = 2
+speed = 3
+move_up_command = "RightPaddleMoveUp"
+move_down_command = "RightPaddleMoveDown"
+
+[node name="Ball" parent="." instance=ExtResource( 3 )]
+position = Vector2( 512, 300 )
+
+[node name="Walls" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="Top" type="StaticBody2D" parent="Walls"]
+editor/display_folded = true
+position = Vector2( 512, -10 )
+scale = Vector2( 60, 1 )
+collision_layer = 3
+collision_mask = 3
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top"]
+shape = SubResource( 1 )
+
+[node name="Right" type="StaticBody2D" parent="Walls"]
+editor/display_folded = true
+position = Vector2( 1034, 300 )
+scale = Vector2( 1, 40 )
+collision_layer = 20
+collision_mask = 20
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right"]
+shape = SubResource( 1 )
+
+[node name="Bottom" type="StaticBody2D" parent="Walls"]
+editor/display_folded = true
+position = Vector2( 512, 610 )
+scale = Vector2( 60, 1 )
+collision_layer = 3
+collision_mask = 3
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Bottom"]
+shape = SubResource( 1 )
+
+[node name="Left" type="StaticBody2D" parent="Walls"]
+editor/display_folded = true
+position = Vector2( -10, 300 )
+scale = Vector2( 1, 40 )
+collision_layer = 12
+collision_mask = 12
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left"]
+shape = SubResource( 1 )
+[connection signal="hit_by_paddle" from="Ball" to="." method="_on_Ball_hit_by_paddle"]
+[connection signal="hit_by_winning_wall" from="Ball" to="." method="_on_Ball_hit_by_winning_wall"]
