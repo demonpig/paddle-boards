@@ -16,11 +16,12 @@ func _on_Ball_hit_by_paddle(side):
 			move_ball($RightPaddle)
 
 func _on_Ball_hit_by_winning_wall(side):
-	print("Game Won!")
-	$Ball.hide()
-	$Ball.set_position(Vector2(512, 300))
-	$Ball.reset()
-	$Ball.show()
+	match side:
+		Global.SIDE.LEFT:
+			$HUD.add_point_to_right_score()
+		Global.SIDE.RIGHT:
+			$HUD.add_point_to_left_score()
+	reset_ball()
 
 func move_ball(paddle):
 	var ball_velocity = $Ball.get_velocity().y
@@ -34,8 +35,16 @@ func move_ball(paddle):
 	if ball_velocity == paddle_velocity:
 		$Ball.add_small_boost()
 
+func reset_ball():
+	$Ball.hide()
+	$Ball.set_position(Vector2(512, 300))
+	$Ball.reset()
+	$Ball.show()
 
-
-
-
-
+func _on_HUD_max_score_met(side):
+	match side:
+		Global.SIDE.LEFT:
+			print("Left side won!")
+		Global.SIDE.RIGHT:
+			print("Right side won!")
+	$HUD.reset()
