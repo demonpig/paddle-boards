@@ -10,8 +10,6 @@ other games that I end up making in the future.
 
 ![Screenshot of Paddle Boards game](screenshot.png)
 
-## Installing / Getting started
-
 ## Developing
 
 * Clone the repository
